@@ -1,0 +1,133 @@
+{% extends "@Site\\index.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block content %}
+    <!-- section intro -->
+    <section id="intro">
+      <div class="intro-content">
+          <h2>{{ 'welcome to'|trans|capitalize }} HOWTODO.COM!</h2>
+          <h3>{{ 'the website of new technologies'|trans|capitalize }}</h3>
+        <div>
+            <a href="{{ path('actualite_display_sodigaz', {'slug':'a-propos'}) }}" class="btn-get-started">{{ 'learn more'|trans|capitalize }}</a>
+        </div>
+      </div>
+    </section>
+    <!-- /section intro -->
+    <section id="content">
+      <div class="container">
+        <div class="row">
+          <div class="span12">
+            <div class="row">
+              {% for article in articles %}
+              <div class="span3 well">
+                <div class="box aligncenter">
+                  <div class="icon">
+                      <span class="text text-bold">
+                          {% if app.request.getLocale() == "fr" %}
+                            {{ article.surTitre }}
+                            {% else %}
+                            {{ article.surTitreEng }}
+                            {% endif %}
+                      </span>
+                  </div>
+                  <div class="text">
+                      <a href='{{ path('actualite_display_sodigaz', {'slug':article.slug}) }}'><img class="img-responsive " src="{{ asset('uploads/actualites/' ~ article.image) }}"></a>
+                    <a href='{{ path('actualite_display_sodigaz', {'slug':article.slug}) }}' class='actualite_titre'>
+                    <h5>
+                        {% if app.request.getLocale() == "fr" %}
+                            {{ article.titre|slice(0, 200) }}
+                        {% else %}
+                        {{ article.titreEng|slice(0, 200) }}
+                        {% endif %}
+                        </h5></a>
+                    <p class="extrait">
+                      {% if app.request.getLocale() == "fr" %}
+                        {{ article.extrait|slice(0, 400) }}
+                        {% else %}
+                        {{ article.extraitEng|slice(0, 400) }}
+                        {% endif %}
+                    </p>
+                    <p>
+                    <a href='{{ path('actualite_display_sodigaz', {'slug':article.slug}) }}' class='actualite_titre btn btn-default accueil-lire-plus'>{{"learn More"|trans|capitalize }}</a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="span12">
+            <div class="cta-box">
+              <div class="row">
+                <div class="span8">
+                  <div class="cta-text">
+                    <h2>PUB <span>TECH</span> INNOVATION</h2>
+                  </div>
+                </div>
+                <div class="span4">
+                  <div class="cta-btn">
+                    <a href="#" class="btn btn-color">CONTENU<i class="icon-caret-right"></i></a>
+                  </div>
+                </div>
+
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="span12">
+            {#<div class="tslider">
+                <div class="element">
+                    your content
+                </div>
+                <div class="element">
+                    your content
+                </div>
+                <div class="element">
+                    your content
+                </div>
+            </div>#}
+            <div class="grid-item main grid-container">
+                <div class="items">
+                    {% for categorieArticle in categorieArticles %}
+                    <div class="item">
+                        <a href="{{ path("display_categorie", {'slug': categorieArticle.slug}) }}">
+                        {% if app.request.getLocale() == "fr" %}
+                        {{ categorieArticle.libelle }}
+                        {% else %}
+                        {{ categorieArticle.libelleEng }}
+                        {% endif %}
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+                <!-- endif -->
+            </div>
+          </div>
+      </div>
+            
+      </div>
+            
+      
+    </section>
+
+{% endblock content %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {#<script src="{{ asset('site/js/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('site/js/owl.carousel.js') }}"></script>#}
+    <script type="text/javascript" src="{{ asset('site/tslider/tslider.js') }}"></script>
+    <script>
+        
+    </script>
+{% endblock %}

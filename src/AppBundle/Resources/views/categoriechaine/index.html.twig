@@ -1,0 +1,66 @@
+{% extends '@App\\index.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- MDBootstrap Datatables  -->
+    <link href="{{asset('admin/css/addons/datatables.min.css" rel="stylesheet')}}">
+{% endblock %}
+
+{% block pageName %}
+    <h3 class="page-header"><i class="fa fa fa-bars"></i>
+        Chaine/ Categories de chaines
+    </h3>
+{% endblock %}
+
+{% block panelHeading %}
+
+    Categories de chaines
+    <div class="pull-right">
+        <a href="{{ path('chaine_index') }}" class="btn btn-primary">chaines</a>
+    </div>
+
+{% endblock %}
+
+{% block content %}
+    <fieldset legend="Gestion de chaine">
+        <div class="panel panel-success">    
+            <a class="btn btn-info" href="{{ path('categoriechaine_new') }}">Nouvelle catégorie de chaine</a><br><br>
+            <div class="row">
+                <div class="col-lg-12">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Nom en anglais</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for categorieChaine in categorieChaines %}
+                        <tr>
+                            <td>{{ categorieChaine.nom }}</td>
+                            <td>{{ categorieChaine.nomEng }}</td>
+                            <td>
+                                <a href="{{ path('categoriechaine_edit', { 'id': categorieChaine.id }) }}" class="btn btn-success">modifier</a>
+                                <a href="{{ path('categoriechaine_delete', { 'id': categorieChaine.id }) }}" class="btn btn-danger">supprimer</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+            </div>
+            <br>
+    </fieldset>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{asset('admin/js/addons/datatables.min.js')}}"></script>
+    <script>
+        $(document).ready(function () {
+            $('#dtBasicExample').DataTable();
+            $('.dataTables_length').addClass('bs-select');
+        });
+    </script>
+{% endblock %}

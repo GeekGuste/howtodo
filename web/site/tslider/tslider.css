@@ -1,0 +1,16 @@
+.tslider {
+    width: 100%;
+    /*height: 150px;*/
+    white-space:nowrap;
+    display: flex;
+    flex-direction: row;
+    flex: auto;
+    justify-content: space-between;
+    align-items: center;
+    overflow: visible;
+}
+
+.tslider .element {
+    display: inline-block;
+    background-color: #ff0000;
+}

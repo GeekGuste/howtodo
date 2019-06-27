@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Niveauchaine</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ niveauChaine.id }}</td>
+            </tr>
+            <tr>
+                <th>Libelle</th>
+                <td>{{ niveauChaine.libelle }}</td>
+            </tr>
+            <tr>
+                <th>Libelleeng</th>
+                <td>{{ niveauChaine.libelleEng }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('niveauchaine_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('niveauchaine_edit', { 'id': niveauChaine.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

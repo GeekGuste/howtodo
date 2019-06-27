@@ -1,0 +1,232 @@
+{% extends "base.html.twig" %}
+
+{% block titre %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block stylesheets %}
+<meta charset="utf-8">
+<title>HOW TO DO</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="La une des actualités et tutoriels liés aux nouvelles technologies" />
+<meta name="author" content="TINCOM" />
+
+  <!-- css -->
+  <link href="{{ asset('site/css/bootstrap.css') }}" rel="stylesheet" />
+  <link href="{{ asset('site/css/bootstrap-responsive.css') }}" rel="stylesheet" />
+  <link href="{{ asset('site/css/prettyPhoto.css') }}" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+  <link href="{{ asset('site/css/style.css') }}" rel="stylesheet">
+  <link href="{{ asset('site/css/style-auguste.css') }}" rel="stylesheet">
+
+  <!-- Theme skin -->
+  <link id="t-colors" href="{{ asset('site/color/default.css') }}" rel="stylesheet" />
+
+  <!-- Fav and touch icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ asset('site/ico/apple-touch-icon-144-precomposed.png') }}" />
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{ asset('site/ico/apple-touch-icon-114-precomposed.png') }}" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{ asset('site/ico/apple-touch-icon-72-precomposed.png') }}" />
+  <link rel="apple-touch-icon-precomposed" href="{{ asset('site/ico/apple-touch-icon-57-precomposed.png') }}" />
+  <link rel="shortcut icon" href="{{ asset('site/ico/favicon.png') }}" />
+{% endblock %}
+
+{% block body %}
+<div id="wrapper">
+    <!-- start header -->
+    <header>
+      <div class="top">
+        <div class="container">
+          <div class="row">
+            <div class="span6">
+              <ul class="topmenu">
+                  <li><a href="{{ path('accueil_howtodo') }}">{{ "home"|trans|capitalize }}</a> &#47;</li>
+                  <li><a href="#">{{ "terms"|trans|capitalize }}</a> &#47;</li>
+                  <li><a href="#">{{ "privacy policy"|trans|capitalize }}</a></li>
+              </ul>
+            </div>
+            <div class="span6">
+
+              <ul class="social-network">
+                <li><a href="#" data-placement="bottom" title="Facebook"><i class="icon-circled icon-bglight icon-facebook"></i></a></li>
+                <li><a href="#" data-placement="bottom" title="Twitter"><i class="icon-circled icon-bglight icon-twitter"></i></a></li>
+                <li><a href="#" data-placement="bottom" title="Linkedin"><i class="icon-circled icon-linkedin icon-bglight"></i></a></li>
+                <li><a href="#" data-placement="bottom" title="Pinterest"><i class="icon-circled icon-pinterest  icon-bglight"></i></a></li>
+                <li><a href="#" data-placement="bottom" title="Google +"><i class="icon-circled icon-google-plus icon-bglight"></i></a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="{{ asset("site/img/" ~ app.request.getLocale() ~ ".png") }}"><b class="locale">&nbsp;{{ app.request.getLocale()|upper }}</b><i class="icon-arrow-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            {% if app.request.getLocale() == "fr" %}
+                            <a href="{{ path(app.request.get('_route'), app.request.get('_route_params')|merge({ '_locale': 'en' })) }}" class="dropdown-toggle" data-toggle="dropdown"><img src="{{ asset("site/img/en.png") }}"><b class="locale">&nbsp;EN</b></a>
+                            {% else %}
+                            <a href="{{ path(app.request.get('_route'), app.request.get('_route_params')|merge({ '_locale': 'fr' })) }}" class="dropdown-toggle" data-toggle="dropdown"><img src="{{ asset("site/img/fr.png") }}"><b class="locale">&nbsp;FR</b></a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </li>
+              </ul>
+                
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+
+
+        <div class="row nomargin">
+          <div class="span4">
+            <div class="logo">
+              <h1><a href="{{ path('homepage') }}"><i class="icon-tint"></i> HOWTODO</a></h1>
+            </div>
+          </div>
+          <div class="span8">
+            <div class="navbar navbar-static-top">
+              <div class="navigation">
+                <nav>
+                    <ul class="nav topnav">
+                    {% import "menu_site.html" as html %}
+                    {% for parent in vglobal.getMenuArbre %}
+                        <li class="dropdown">
+                            {{ html.afficherElement(parent) }}
+                            {% if parent.arbre|length > 0 %}
+                                <ul class="dropdown-menu">
+                                    {{ html.afficherArbre(parent) }}
+                                </ul>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </nav>
+              </div>
+              <!-- end navigation -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- end header -->
+
+{% block Panel %}
+{% endblock Panel %}
+
+
+{% block content %}
+    <!-- section intro -->
+    <section id="intro">
+      <div class="intro-content">
+        <h2>Bienvenue sur Code News!</h2>
+        <h3>Le sites des nouvelles technologies</h3>
+        <div>
+          <a href="#content" class="btn-get-started scrollto">Détails</a>
+        </div>
+      </div>
+    </section>
+    <!-- /section intro -->
+{% endblock content %}
+
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="span4">
+            <div class="widget">
+              <div class="footer_logo">
+                <h3><a href="{{ path('homepage') }}"><i class="icon-tint"></i> HOW TO DO</a></h3>
+              </div>
+              <address>
+							  <strong>TINCOM company Inc.</strong><br>
+  							{#Somestreet KW 101, Park Village W.01<br>
+  							Jakarta 13426 Indonesia#}
+  						</address>
+              <p>
+                {#<i class="icon-phone"></i> (123) 456-7890 - (123) 555-7891 <br>#}
+                <i class="icon-envelope-alt"></i> tincomtg@gmail.com
+              </p>
+            </div>
+          </div>
+          <div class="span4">
+            <div class="widget">
+              <h5 class="widgetheading">Browse pages</h5>
+              <ul class="link-list">
+                <li><a href="{{ path('contact_howtodo') }}">{{ "contact"|trans|capitalize }}</a></li>
+                <li><a href="#">{{ "terms"|trans|capitalize }}</a></li>
+                <li><a href="#">{{ "privacy policy"|trans|capitalize }}</a></li>
+              </ul>
+
+            </div>
+          </div>
+          <div class="span4">
+            <div class="widget">
+                <a class="twitter-timeline"
+                    href="https://twitter.com/TINCOM3">
+                  Tweets from https://twitter.com/TINCOM3
+                </a>
+              {#<h5 class="widgetheading">TWITER</h5>
+              <div class="flickr_badge">
+                <script type="text/javascript" src="http://www.flickr.com/badge_code_v2.gne?count=8&amp;display=random&amp;size=s&amp;layout=x&amp;source=user&amp;user=34178660@N03"></script>
+              </div>
+              <div class="clear"></div>#}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="sub-footer">
+        <div class="container">
+          <div class="row">
+            <div class="span6">
+              <div class="copyright">
+                <p><span>&copy; TINCOM Inc. All right reserved</span></p>
+              </div>
+
+            </div>
+
+            <div class="span6">
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <a href="#" class="scrollup"><i class="icon-angle-up icon-rounded icon-bglight icon-2x"></i></a>                 
+
+
+{% endblock %}
+
+{% block javascripts %}
+    <!-- javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{{ asset('site/js/jquery.js')}}"></script>
+    <!-- javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{{ asset('site/js/jquery.js"') }}></script>
+    <script src="{{ asset('site/js/jquery.easing.1.3.js') }}"></script>
+    <script src="{{ asset('site/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('site/js/modernizr.custom.js') }}"></script>
+    <script src="{{ asset('site/js/toucheffects.js') }}"></script>
+    <script src="{{ asset('site/js/google-code-prettify/prettify.js') }}"></script>
+    <script src="{{ asset('site/js/jquery.prettyPhoto.js') }}"></script>
+    <script src="{{ asset('site/js/portfolio/jquery.quicksand.js') }}"></script>
+    <script src="{{ asset('site/js/portfolio/setting.js') }}"></script>
+    <script src="{{ asset('site/js/animate.js') }}"></script>
+    <script async src="https://platform.twitter.com/widgets.js"></script>
+
+    <!-- Template Custom JavaScript File -->
+    <script src="{{ asset('site/js/custom.js') }}"></script>
+    <script src="{{ asset('site/js/custom-auguste.js') }}"></script>
+    {#<!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+                                    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+                                    (function () {
+                                        var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+                                        s1.async = true;
+                                        s1.src = 'https://embed.tawk.to/5bb1d88d8a438d2b0cdfe1e3/default';
+                                        s1.charset = 'UTF-8';
+                                        s1.setAttribute('crossorigin', '*');
+                                        s0.parentNode.insertBefore(s1, s0);
+                                    })();
+    </script>
+    <!--End of Tawk.to Script-->#}
+
+{% endblock %}

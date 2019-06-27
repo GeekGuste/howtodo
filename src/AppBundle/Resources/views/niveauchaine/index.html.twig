@@ -1,0 +1,66 @@
+{% extends '@App\\index.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- MDBootstrap Datatables  -->
+    <link href="{{asset('admin/css/addons/datatables.min.css" rel="stylesheet')}}">
+{% endblock %}
+
+{% block pageName %}
+    <h3 class="page-header"><i class="fa fa fa-bars"></i>
+        Chaine/ Niveaux de chaines
+    </h3>
+{% endblock %}
+
+{% block panelHeading %}
+
+    Liste des niveaux de chaines
+    <div class="pull-right">
+        <a href="{{ path('chaine_index') }}" class="btn btn-primary">chaines</a>
+    </div>
+
+{% endblock %}
+
+{% block content %}
+    <fieldset legend="Gestion de chaine">
+        <div class="panel panel-success">    
+            <a class="btn btn-info" href="{{ path('niveauchaine_new') }}">Nouveau niveau</a><br><br>
+            <div class="row">
+                <div class="col-lg-12">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Libellé</th>
+                            <th>Libelle en anglais</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for niveauChaine in niveauChaines %}
+                        <tr>
+                            <td>{{ niveauChaine.libelle }}</td>
+                            <td>{{ niveauChaine.libelleEng }}</td>
+                            <td>
+                                <a href="{{ path('niveauchaine_edit', { 'id': niveauChaine.id }) }}" class="btn btn-success">modifier</a>
+                                <a href="{{ path('niveauchaine_delete', { 'id': niveauChaine.id }) }}" class="btn btn-danger">supprimer</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+            </div>
+            <br>
+    </fieldset>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{asset('admin/js/addons/datatables.min.js')}}"></script>
+    <script>
+        $(document).ready(function () {
+            $('#dtBasicExample').DataTable();
+            $('.dataTables_length').addClass('bs-select');
+        });
+    </script>
+{% endblock %}

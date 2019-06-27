@@ -1,0 +1,19 @@
+{% extends '@App\\index.html.twig' %}
+{% block pageName %}
+    <h3 class="page-header"><i class="fa fa fa-bars"></i>
+        Utilisateur
+    </h3>
+{% endblock %}
+
+{% block panelHeading %}
+Confirmation
+{% endblock %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+    <p>{{ 'registration.confirmed'|trans({'%username%': user.username}) }}</p>
+    {% if targetUrl %}
+    <p><a href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a></p>
+    {% endif %}
+{% endblock fos_user_content %}

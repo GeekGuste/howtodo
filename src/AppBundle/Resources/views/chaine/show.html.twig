@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Chaine</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ chaine.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ chaine.nom }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td>{{ chaine.image }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('chaine_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('chaine_edit', { 'id': chaine.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

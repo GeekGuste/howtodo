@@ -1,0 +1,78 @@
+{% extends '@App\\index.html.twig' %}
+
+{% block pageName %}
+    <h3 class="page-header"><i class="fa fa fa-bars"></i>
+        Chaînes
+    </h3>
+{% endblock %}
+
+{% block panelHeading %}
+    Modification d'une chaîne
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel='stylesheet' href="{{ asset('admin/css/bootstrap-imageupload.css') }}" />
+{% endblock %}
+{% block content %}
+    <br>
+    <div  class="col-md-10 col-md-offset-1">
+        {{ form_start(form) }} 
+        <div class="col-md-8">
+            <div class='form-group'>
+                <label>Nom</label>
+                {{ form_widget(form.nom,{'attr':{'class':'form-control'}}) }}
+            </div>
+            <div class='form-group'>
+                <label>Nom en anglais</label>
+                {{ form_widget(form.nomEng,{'attr':{'class':'form-control'}}) }}
+            </div>
+            <div class='form-group'>
+                <label>Description</label>
+                {{ form_widget(form.description,{'attr':{'class':'form-control'}}) }}
+            </div>
+            <div class='form-group'>
+                <label>Description en anglais</label>
+                {{ form_widget(form.descriptionEng,{'attr':{'class':'form-control'}}) }}
+            </div>
+            <div class='form-group'>
+                <label>Niveau</label>
+                {{ form_widget(form.niveauChaine,{'attr':{'class':'form-control'}}) }}
+            </div>
+            <div class='form-group'>
+                <label>Catégorie(s) de chaines</label>
+                {{ form_widget(form.categorieChaines,{'attr':{'class':'form-control'}}) }}
+            </div>
+            <div class="form-group">
+                <div class="imageupload panel panel-default">
+                    <div class="panel-heading clearfix">
+                        <h3 class="panel-title pull-left">Image de  la chaine</h3>
+                    </div>
+                    <div class="file-tab panel-body">
+                        <label class="btn btn-default btn-file">
+                            <span>Parcourir(870*350)</span>
+                            <!-- le fichier est stocké ici -->
+                            {{ form_widget(form.imageFile, {"required":true}) }}
+                        </label>
+                        <button type="button" class="btn btn-default">Retirer</button>
+                    </div>
+                </div>
+            </div>
+                         <input class="btn btn-success btn-lg" type="submit" value="Modifier" />
+        </div>
+        {{ form_end(form) }} 
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{parent()}}
+    <script type="text/javascript" src="{{asset('admin/js/bootstrap-imageupload.js')}}"></script>
+    <script type="text/javascript" src="{{asset('admin/assets/ckeditor/ckeditor.js')}}"></script>
+    <script>
+        $('.imageupload').imageupload({
+            allowedFormats: [ 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff' ],
+            maxFileSizeKb: 512,
+            imgSrc: "{{ asset('uploads/chaines/' ~ chaine.image) }}"
+        });
+        $("[type='file']").removeAttr('required');
+    </script>
+{% endblock %}

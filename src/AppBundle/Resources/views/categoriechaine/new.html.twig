@@ -1,0 +1,46 @@
+{% extends '@App\\index.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- MDBootstrap Datatables  -->
+    <link href="{{asset('admin/css/addons/datatables.min.css" rel="stylesheet')}}">
+{% endblock %}
+
+{% block pageName %}
+    <h3 class="page-header"><i class="fa fa fa-bars"></i>
+        Chaine/ Categories de chaines
+    </h3>
+{% endblock %}
+
+{% block panelHeading %}
+
+    Ajout d'une categorie de chaines
+    <div class="pull-right">
+        <a href="{{ path('chaine_index') }}" class="btn btn-primary">chaines</a>
+    </div>
+
+{% endblock %}
+
+{% block content %}
+    <br>
+    <div  class="col-md-6 col-md-offset-3">
+        {{ form_start(form) }} 
+        <div class='form-group'>
+            <label>Nom</label>
+            {{ form_widget(form.nom,{'attr':{'class':'form-control'}}) }}
+        </div>
+        <div class='form-group'>
+            <label>Nom en anglais</label>
+            {{ form_widget(form.nomEng,{'attr':{'class':'form-control'}}) }}
+        </div>
+        {{ form_widget(form) }}
+
+        <div class="form-group col-md-4">
+            <a class="btn-danger btn-lg btn-block" type="button" href="{{path('categoriechaine_index')}}">Voir la liste</a>
+        </div>
+        <div class="form-group col-md-4">
+            <input class="btn-success btn-lg btn-block" type="submit" value="Ajouter" >
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

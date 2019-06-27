@@ -1,0 +1,70 @@
+{% extends '@App\\index.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- MDBootstrap Datatables  -->
+    <link href="{{asset('admin/css/addons/datatables.min.css" rel="stylesheet')}}">
+{% endblock %}
+
+{% block pageName %}
+    <h3 class="page-header"><i class="fa fa fa-bars"></i>
+        Chaine
+    </h3>
+{% endblock %}
+
+{% block panelHeading %}
+
+    Liste des chaines
+    <div class="pull-right">
+        <a href="{{ path('categoriechaine_index') }}" class="btn btn-primary">catégories de chaines</a>
+        <a href="{{ path('niveauchaine_index') }}" class="btn btn-primary">niveaux de chaines</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <fieldset legend="Gestion de chaine">
+        <div class="panel panel-success">    
+            <a class="btn btn-info" href="{{ path('chaine_new') }}">Nouvelle chaine</a><br><br>
+            <div class="row">
+                <div class="col-lg-12">
+                {% for chaine in chaines %}
+                    <div class="col-md-4 well" style='margin: 5px;'>
+                        <img src="{{ asset('uploads/chaines/' ~ chaine.image) }}" width="100%" height="170">
+                        <div>
+                            <h4>{{ chaine.nom }}</h4>
+                            <h4>{{ chaine.nomEng }}</h4>
+                            <h3><b>{{ chaine.niveauChaine.libelle }}</b></h3>
+                            <h5>
+                                {% for categorieChaine in chaine.categorieChaines %}
+                                    <span class='badge'><b>{{ categorieChaine.nom }}</b></span>
+                                {% endfor %}
+                            </h5>
+                            <p>{{ chaine.description }}</p>
+                            <p>{{ chaine.descriptionEng }}</p>
+                            <p><span class="badge badge-primary">{{ chaine.articles|length }}</span><a href="{{ path('chaine_articles_list', { 'id': chaine.id }) }}"> article(s)</a></p>
+                            <div>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                <a class="btn btn-primary" href="{{ path('chaine_articles_list', { 'id': chaine.id }) }}"><i class="fa fa-list-alt"></i></a>
+                                <a onclick="return confirm('Etes-vous sûr de vouloir supprimer cette chaine')" class="btn btn-danger" href="{{ path('chaine_delete', { 'id': chaine.id }) }}"><i class="icon_close_alt2"></i></a>
+                                {% endif %}
+                                <a class="btn btn-success" href="{{ path('chaine_edit', { 'id': chaine.id }) }}"><i class="fa fa-pencil"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+            <br>
+    </fieldset>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{asset('admin/js/addons/datatables.min.js')}}"></script>
+    <script>
+        $(document).ready(function () {
+            $('#dtBasicExample').DataTable();
+            $('.dataTables_length').addClass('bs-select');
+        });
+    </script>
+{% endblock %}

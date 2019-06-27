@@ -1,0 +1,142 @@
+{% extends "@Site\\index.html.twig" %}
+
+{% block stylesheets %}
+    {{parent()}}
+    <link id="bodybg" href="{{('site/bodybg/bg1.css')}}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    <section id="inner-headline">
+      <div class="container">
+        <div class="row">
+            <div class="span4">
+                <div class="inner-heading">
+                    <h2>Actualités</h2>
+                </div>
+            </div>
+            <div class="span8">
+                <ul class="breadcrumb">
+                    <li><a href="{{ path('actualite_sodigaz') }}">{{"article"|trans|capitalize }}</a><i class="icon-angle-right"></i></li>
+                    <li class="active">
+                        {% if app.request.getLocale() == "fr" %}
+                            {{ actualite.titre }}
+                        {% else %}
+                            {{ actualite.titreEng }}
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+      </div>
+    </section>
+    <section id="content">
+      <div class="container">
+        <div class="row">
+          <div class="span8">
+            <article>
+              <div class="row">
+
+                <div class="span8">
+                  <div class="post-image">
+                    <div class="post-heading">
+                      <h3><a href="#">{{ actualite.titre }}</a></h3>
+                    </div>
+
+                    <img src="{{ asset('uploads/actualites/' ~ actualite.image) }}" alt="{{ actualite.titre }}" />
+                  </div>
+                  <div class="">
+                    <div class="description">
+                        {% if app.request.getLocale() == "fr" %}
+                            {{ actualite.description|raw }}
+                        {% else %}
+                            {{ actualite.descriptionEng|raw }}
+                        {% endif %}
+                    </div>
+                  </div>
+                <div class="widget">
+                    <ul class="tags">
+                        {% for categorieActualite in actualite.categorieActualites %}
+                        <li><a href="{{ path('actualite_categorie_sodigaz', {'selectedCategorieActualite':categorieActualite.id}) }}">
+                                {% if app.request.getLocale() == "fr" %}
+                                {{ categorieActualite.libelle }}
+                                {% else %}
+                                {{ categorieActualite.libelleEng }}
+                                {% endif %}
+                            </a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="meta-post">
+                    <a href="#" class="author">{{ "publié par"|trans|capitalize }}<br />{{ actualite.redacteur.username }}</a>
+                    <a href="#" class="date">{{ actualite.date|date("d M") }}<br /> {{ actualite.date|date("Y") }}</a>
+                </div>
+                <br>
+                </div>
+              </div>
+            </article>
+          </div>
+          <div class="span4">
+            <aside class="right-sidebar">
+              <div class="widget">
+                {#<form class="form-search">
+                  <input placeholder="Type something" type="text" class="input-medium search-query">
+                  <button type="submit" class="btn btn-square btn-theme">Search</button>
+                </form>#}
+              </div>
+              <div class="widget">
+                  <h5 class="widgetheading">{{ "categories"|trans|capitalize }}</h5>
+                <ul class="cat">
+                  {% for categorieActualite in categorieActualites %}
+                      <li><i class="icon-angle-right"></i><a href="{{ path('actualite_categorie_sodigaz', {'selectedCategorieActualite':categorieActualite.id}) }}">
+                            {% if app.request.getLocale() == "fr" %}  
+                              {{ categorieActualite.libelle }}
+                            {% else %}
+                              {{ categorieActualite.libelle }}
+                            {% endif %}
+                          </a><span> ({{ categorieActualite.actualites|length }})</span></li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <div class="widget">
+                <h5 class="widgetheading">{{ "Dernières publications"|trans }}</h5>
+                <ul class="recent">
+                  {% for autre in autres %}
+                  <li>
+                    <img src="{{ asset('uploads/actualites/' ~ autre.image) }}" width="65" height="65" alt="{{ autre.titre|slice(0, 54) ~ "..." }}" class="pull-left" />
+                    <h6><a href='{{ path('actualite_display_sodigaz', {'slug':autre.slug}) }}'>
+                            {% if app.request.getLocale() == "fr" %}
+                            {{ autre.titre }}
+                            {% else %}
+                            {{ autre.titreEng }}
+                            {% endif %}
+                        </a></h6>
+                    <p>
+                        {% if app.request.getLocale() == "fr" %}
+                        {{ autre.extrait|slice(0, 54) ~ "..." }}
+                        {% else %}
+                        {{ autre.extraitEng|slice(0, 54) ~ "..." }}
+                        {% endif %}
+                    </p>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            <div class="widget">
+
+                <h5 class="widgetheading">Publicité</h5>
+                <div class="video-container">
+                  <iframe src="http://player.vimeo.com/video/30585464?title=0&amp;byline=0">			</iframe>
+                </div>
+            </div>
+              <div class="widget">
+                <h5 class="widgetheading">Autre pub()</h5>
+                <div class="flickr_badge">
+                  <script type="text/javascript" src="http://www.flickr.com/badge_code_v2.gne?count=8&amp;display=random&amp;size=s&amp;layout=x&amp;source=user&amp;user=34178660@N03"></script>
+                </div>
+                <div class="clear"></div>
+                </div>
+            </aside>
+          </div>
+        </div>
+</section>
+{% endblock content %}

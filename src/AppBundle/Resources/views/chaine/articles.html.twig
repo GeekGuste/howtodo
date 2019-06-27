@@ -1,0 +1,154 @@
+{% extends '@App\\index.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- MDBootstrap Datatables  -->
+    <link href="{{asset('admin/css/addons/datatables.min.css" rel="stylesheet')}}">
+{% endblock %}
+
+{% block pageName %}
+    <h3 class="page-header"><i class="fa fa fa-bars"></i>
+        Chaine
+    </h3>
+{% endblock %}
+
+{% block panelHeading %}
+
+    Articles de la chaine {{ chaine.nom ~ "(" ~ chaine.nomEng ~ ")" }}
+    <div class="pull-right">
+        <a href="{{ path('chaine_add_article_index', {'id':chaine.id}) }}" class="btn btn-success">Ajouter un article</a>
+        <a href="{{ path('chaine_index') }}" class="btn btn-primary">Liste des chaines</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+   <fieldset legend="Gestion de chaine">
+        <div class="panel panel-success">    
+            <h2>Articles de la chaine {{ chaine.nom ~ "(" ~ chaine.nomEng ~ ")" }}</h2><br><br>
+            <div class="row">
+                <div class='col-md-12'>
+                    {% for article in articles %}
+                    <div class="col-md-3 well article" position='{{ article.position }}' style='margin: 15px;'>
+                        <div class='pull-right'>
+                            <span class="badge badge-primary badge-circled">{{ article.position }}</span>
+                        </div>
+                        <div class="contenu">
+                            <div class="box aligncenter">
+                                <div class="icon">
+                                    <span class="">
+                                        {{ article.surTitre }}
+                                    </span>
+                                </div>
+                                        <a href='{{ path('actualite_display_sodigaz', {'slug':article.slug}) }}'><img class="img-responsive" style="height:170px;" src="{{ asset('uploads/actualites/' ~ article.image) }}"></a>
+                                <div class="text">
+                                  <a href='{{ path('actualite_display_sodigaz', {'slug':article.slug}) }}' class='actualite_titre'>
+                                      <h4><strong><center>
+                                                  {{ article.titre|slice(0, 20) }}
+                                      </center></strong></h4></a>
+                                  <p style='text-align: justify'>
+                                      {{ article.extrait|slice(0, 100) }}
+                                  </p>
+                                  <a href='{{ path('actualite_display_sodigaz', {'slug':article.slug}) }}' class='actualite_titre'>{{"learn More"|trans|capitalize }}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {% if article.position < articles|length %}
+                        <div class="col-md-1" style="position: relative; top: 10em;">
+                            <button class="btn btn-default" title="permuter la position" onclick="permuter('{{ article.position }}');">
+                                <span class='changeur' min='{{ article.position }}' max='{{ article.position+1 }}'>
+                                        {{ article.position }}<i class='fa fa-arrow-left'></i>
+                                        <i class='fa fa-arrow-right'></i>{{ article.position+1 }}
+                                </span>
+                            </button>
+                        </div>
+                    {% endif %}
+                    
+                    {% endfor %}
+                </div>
+            </div>
+            <br>
+    </fieldset>
+                    <div id="loading-image" style="display: none;">
+                        <img src="{{ asset('admin/img/loading.gif') }}" alt="chargement..." />
+                    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{asset('admin/js/addons/datatables.min.js')}}"></script>
+    <script>
+        $(document).ready(function () {
+            $('#dtBasicExample').DataTable();
+            $('.dataTables_length').addClass('bs-select');
+        });
+    </script>
+    <script>
+        function permuter(position1){
+            var position2 = parseInt(position1) + 1;
+            //alert(position2);
+            //Récupération des articles à permuter
+            var article1 = $('.article[position="'+ position1 +'"] .contenu');
+                contenu1 = article1.html();
+            var article2 = $('.article[position="'+ position2 +'"] .contenu');
+                contenu2 = article2.html();
+            
+            //Changement de position côté serveur
+            var chaine_id = '{{ chaine.id }}';
+            var imageContainer = $("#loading-image");
+            
+            $.ajax({
+                url: Routing.generate('chaine_articles_permute', { id: chaine_id }),
+                dataType: "text",
+                method: "POST",
+                data: {position1: position1, position2: position2},
+                beforeSend: function( xhr ) {
+                    imageContainer.css("display", "block");
+                    $("body").mousemove(function(e){
+                        //alert('bouge');
+                        //e dois enlever ça
+                        imageContainer.css({'position':'absolute', 'top': e.clientY+240, 'left': e.clientX+10});
+                    });
+                    //alert(imageContainer.html());
+                },
+                success: function(data){
+                    if(data != "ok"){
+                        alert('Erreur de permutation');
+                        imageContainer.css("display", "none");
+                    }
+                    else{
+                        //permutation js
+                        article1.animate({
+                            opacity: 0.25
+                          }, 2000, function() {
+                            // Animation complete.
+                            article1.css("opacity", "1");
+                            article1.empty();
+                            article1.append(contenu2);
+                        });
+
+                        article2.animate({
+                                opacity: 0.25
+                              }, 2000, function() {
+                                // Animation complete.
+                                article2.css("opacity", "1");
+                                article2.empty();
+                                article2.append(contenu1);
+                                imageContainer.css("display", "none");
+                            });
+                    }
+                            
+                    
+                    $("body").off("mouseover");
+                },
+                error: function(){
+                    alert('Permutation échouée');
+                    imageContainer.css("display", "none");
+                    $("body").off("mouseover");
+                }
+             });
+            
+        }
+    </script>
+{% endblock %}

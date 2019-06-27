@@ -1,0 +1,39 @@
+{% extends '@App\\index.html.twig' %}
+
+{% block pageName %}
+    <h3 class="page-header"><i class="fa fa fa-bars"></i>
+        Chaines/Niveaux de chaines
+    </h3>
+{% endblock %}
+
+{% block panelHeading %}
+    Modification d'un niveau de chaines
+    <div class="pull-right">
+        <a href="{{ path('chaine_index') }}" class="btn btn-primary">chaines</a>
+    </div>
+{% endblock %}
+
+
+{% block content %}
+    <br>
+    <div  class="col-md-6 col-md-offset-3">
+        {{ form_start(form) }} 
+        <div class='form-group'>
+            <label>Libellé</label>
+            {{ form_widget(form.libelle,{'attr':{'class':'form-control'}}) }}
+        </div>
+        <div class='form-group'>
+            <label>Libellé en anglais</label>
+            {{ form_widget(form.libelleEng,{'attr':{'class':'form-control'}}) }}
+        </div>
+        {{ form_widget(form) }}
+
+        <div class="form-group col-md-4">
+            <a class="btn-danger btn-lg btn-block" type="button" href="{{path('niveauchaine_index')}}">Voir la liste</a>
+        </div>
+        <div class="form-group col-md-4">
+            <input class="btn-success btn-lg btn-block" type="submit" value="Modifier" >
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

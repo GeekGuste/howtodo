@@ -1,0 +1,160 @@
+{% extends '@App\\index.html.twig' %}
+{% block pageName %}
+    <h3 class="page-header"><i class="fa fa fa-bars"></i>
+        Utilisateur
+    </h3>
+{% endblock %}
+
+{% block panelHeading %}
+Gestion des utilisateurs
+{% endblock %}
+ {% block content %}
+  <!--tab nav start-->
+            <section class="panel">
+              <header class="panel-heading tab-bg-primary ">
+                <ul class="nav nav-tabs">
+                  <li class="active">
+                    <a data-toggle="tab" href="#adduser">Ajouter un utilisateur</a>
+                  </li>
+                  <li class="">
+                    <a data-toggle="tab" href="#listeuser">Liste des utilisateurs</a>
+                  </li>
+              <!--    <li class="">
+                    <a data-toggle="tab" href="#useradmin">Utilisateur Admin.</a>
+                  </li>
+                  <li class="">
+                    <a data-toggle="tab" href="#usersimple">Utilisateur Simple</a>
+                  </li>-->
+                </ul>
+              </header>
+              <div class="panel-body">
+                <div class="tab-content">
+                  <div id="adduser" class="tab-pane active">
+  {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+
+             <fieldset class="form-horizontal" id="inscription">
+                 {{ form_errors(form) }}
+                
+
+                 <div class="form-group">
+                     <label class="control-label col-md-4">
+                         {{ form_label(form.username) }}<span  style="color: red; font-size: 15px;">&nbsp;&nbsp;*</span>
+                     </label>
+                     <div class="col-md-6">
+                         {{ form_widget(form.username, {'attr': {'class': 'form-control'}}) }}
+                         {{ form_errors(form.username) }}
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-4">
+                         {{ form_label(form.email) }}<span  style="color: red; font-size: 15px;">&nbsp;&nbsp;*</span>
+                     </label>
+                     <div class="col-md-6">
+                         {{ form_widget(form.email,{'attr': {'class': 'form-control'}}) }}
+                         {{ form_errors(form.email) }}
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label col-md-4">
+                         {{ form_label(form.plainPassword.first) }}<span  style="color: red; font-size: 15px;">&nbsp;&nbsp;*</span>
+                     </label>
+                     <div class="col-md-6">
+                         {{ form_widget(form.plainPassword.first,{'attr': {'class': 'form-control'}}) }}
+                         {{ form_errors(form.plainPassword.first) }}
+                     </div>
+                 </div>
+                 <div class="form-group">
+
+                     <label class="control-label col-md-4">
+                         {{ form_label(form.plainPassword.second, null, {'label': 'Confirmer le mot de passe'}) }}<span  style="color: red; font-size: 15px;">&nbsp;&nbsp;*</span>
+                     </label>
+                     <div class="col-md-6">
+                         {{ form_widget(form.plainPassword.second,{'attr': {'class': 'form-control'}}) }}
+                     </div>
+                 </div>
+              
+
+                 <div class="form-group"  >
+                     <label class="control-label col-md-4">
+                         {{ form_label(form.roles,null, {'label': 'Rôles'}) }}<span  style="color: red; font-size: 15px;">&nbsp;&nbsp;*</span>
+                     </label>
+                     <div class="col-md-6">
+                         {{ form_widget(form.roles) }}
+                         {{ form_errors(form.roles) }}
+                     </div>
+                 </div>
+
+                
+
+
+                 <div  class="col-lg-offset-4">
+                     <input  class="btn btn-success btn-group-lg btn-rect" type="submit" value="Valider" />
+                     <input class="btn btn-primary btn-group-lg btn-rect" type="reset" value="Annuler " />
+
+                 </div>
+
+
+
+     </fieldset>
+
+{{ form_end(form) }}                  </div>
+                  <div id="listeuser" class="tab-pane">
+                    <fieldset legend="utilisateur">
+        <div class="panel panel-success">    
+            <div class="table-responsive">
+                <table id="dtBasicExample" class="table table-bordered table-striped table-sm">
+                    <thead class="black white-text">
+                        <tr>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Dérnière connexion</th>
+                             <th>Status</th>
+                           <!-- <th>Actions</th>-->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                            <tr>
+                                <td>{{ user.username|capitalize }}</td>
+                                <td>{{ user.email }}</td>
+                             <td>{% if user.lastLogin %}{{  user.lastLogin|date('d-m-Y H:i:s') }}{% endif %}</td>
+                         {% if user.enabled==1 %}
+                                    <td>Activé</td>
+                                    {% else %}
+                                    <td> Non activé</td>
+                                    {% endif %}
+                               <!-- <td>
+    <button type="button" class="btn btn-success btn-circle"><i class="glyphicon glyphicon-check"></i></button>
+<button type="button" class="btn btn-danger btn-circle"><i class="glyphicon glyphicon-remove"></i></button>
+
+                                </td>-->
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+    </fieldset>
+                  
+                  
+                  </div>
+                  <!--<div id="useradmin" class="tab-pane">User Admin</div>
+                  <div id="usersimple" class="tab-pane">User simple</div>-->
+                </div>
+              </div>
+            </section>
+            <!--tab nav start-->
+
+           
+
+     {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{asset('admin/js/addons/datatables.min.js')}}"></script>
+    <script>
+        $(document).ready(function () {
+            $('#dtBasicExample').DataTable();
+            $('.dataTables_length').addClass('bs-select');
+        });
+    </script>
+{% endblock %}

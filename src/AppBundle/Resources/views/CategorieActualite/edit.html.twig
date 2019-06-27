@@ -1,0 +1,77 @@
+{% extends '@App\\index.html.twig' %}
+
+{% block pageName %}
+    <h3 class="page-header"><i class="fa fa fa-bars"></i>
+        CategorieActualite
+    </h3>
+      <div class="form-group col-md-4">
+            <a class="btn btn-info" type="button" href="{{path('categorieActualite_index')}}">Voir la liste</a>
+        </div>
+{% endblock %}
+
+{% block panelHeading %}
+    Modifier un categorieActualite
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel='stylesheet' href="{{ asset('admin/css/bootstrap-imageupload.css') }}" />
+{% endblock %}
+
+{% block content %}
+    <br>
+    <div  class="col-md-6 col-md-offset-3">
+        {{ form_start(form) }} 
+        <div class='form-group'>
+            <label>Libellé</label>
+            {{ form_widget(form.libelle,{'attr':{'class':'form-control'}}) }}
+        </div>
+        <div class='form-group'>
+            <label>Libellé en anglais</label>
+            {{ form_widget(form.libelleEng,{'attr':{'class':'form-control'}}) }}
+        </div>
+        <div class='form-group'>
+            <label>Parent (laisser vide si non)</label>
+            {{ form_widget(form.parent,{'attr':{'class':'form-control'}}) }}
+        </div>
+        <div class='form-group'>
+            <label>Description</label>
+            {{ form_widget(form.description,{'attr':{'class':'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            <div class="imageupload panel panel-default">
+                <div class="panel-heading clearfix">
+                    <h3 class="panel-title pull-left">Image(870px * 350px)</h3>
+                </div>
+                <div class="file-tab panel-body">
+                    <label class="btn btn-default btn-file">
+                        <span>Parcourir(870*350)</span>
+                        <!-- le fichier est stocké ici -->
+                        {{ form_widget(form.imageFile, {"required":true}) }}
+                    </label>
+                    <button type="button" class="btn btn-default">Retirer</button>
+                </div>
+            </div>
+        </div>
+        {{ form_widget(form) }}
+        <div class="form-group col-md-4">
+            <input class="btn-success btn-lg btn-block" type="submit" value="Modifier" />
+        </div>
+        <div class="form-group col-md-4">
+            <input class="btn-default btn-lg btn-block" type="submit" value="Annuler" />
+        </div>
+      
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{parent()}}
+    <script type="text/javascript" src="{{asset('admin/js/bootstrap-imageupload.js')}}"></script>
+    <script>
+        $('.imageupload').imageupload({
+            allowedFormats: [ 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff' ],
+            maxFileSizeKb: 512,
+            imgSrc: "{{ asset('uploads/actualites/' ~ actualite.image) }}"
+        });
+    </script>
+{% endblock %}

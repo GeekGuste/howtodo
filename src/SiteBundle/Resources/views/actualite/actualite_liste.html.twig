@@ -1,0 +1,49 @@
+{% for actualite in actualites %}
+    <div class="row">
+        <div class="span4">
+            <a href='{{ path('actualite_display_sodigaz', {'slug':actualite.slug}) }}'><img src="{{ asset('uploads/actualites/' ~ actualite.image) }}" width="100%" height="170"></a>
+        </div>
+        <div class="span8">
+            <span style="color: #0088cc;">
+                {% if app.request.getLocale() == "fr" %}
+                {{ actualite.surTitre }}
+                {% else %}
+                {{ actualite.surTitreEng }}
+                {% endif %}
+            </span>
+            <a href='{{ path('actualite_display_sodigaz', {'slug':actualite.slug}) }}' class='actualite_titre'><h3><strong>
+                        {% if app.request.getLocale() == "fr" %}
+                        {{ actualite.titre }}
+                        {% else %}
+                        {{ actualite.titreEng }}
+                        {% endif %}
+                    </strong></h3></a>
+            <p>
+                {% if app.request.getLocale() == "fr" %}
+                {{ actualite.extrait }}
+                {% else %}
+                {{ actualite.extraitEng }}
+                {% endif %}
+            </p>
+            <div class="widget">
+                <ul class="tags">
+                    {% for categorieActualite in actualite.categorieActualites %}
+                    <li><a href="{{ path('actualite_categorie_sodigaz', {'selectedCategorieActualite':categorieActualite.id}) }}">
+                            {% if app.request.getLocale() == "fr" %}
+                            {{ categorieActualite.libelle }}
+                            {% else %}
+                            {{ categorieActualite.libelleEng }}
+                            {% endif %}
+                        </a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+        <br>
+        <hr>
+        <br>
+{% endfor %}
+<div class="navigation">
+    {{ knp_pagination_render(actualites) }}
+</div>

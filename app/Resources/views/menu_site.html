@@ -1,0 +1,47 @@
+{% macro afficherArbre(menu) %}
+    {% import _self as html %}
+    {% for fils in menu.arbre %}
+        <li>
+            {{ _self.afficherElement(fils) }}
+            {% if fils.arbre|length > 0 %}
+            <i class="icon-angle-right"></i>
+            <ul class="dropdown-menu">
+            {{ html.afficherArbre(fils) }}
+            </ul>
+            {% endif %}
+        </li>
+    {% endfor %}
+{% endmacro %}
+
+{% macro afficherElement(element) %}
+    <a href="{{ element.menu.lien }}">
+        {% if app.request.getLocale() == "fr" %}
+            {{ element.menu.titre }}
+        {% else %}
+            {{ element.menu.titreEng }}
+        {% endif %}
+    {% if element.menu.categorie is null %}
+        {% if element.arbre|length > 0 %}
+            <i class="{% if element.menu.parent is null %}icon-angle-down{% else %}icon-angle-right{% endif %}"></i>
+        {% endif %}
+    </a>
+    {% elseif element.menu.categorie.enfants|length > 0 %}
+        <i class="icon-angle-down"></i>
+    </a>
+        <ul class="dropdown-menu">
+            {% for cat in element.menu.categorie.enfants %}
+            <li>
+                <a href='{{ path('display_categorie', {'slug':cat.slug}) }}'>
+                {% if app.request.getLocale() == "fr" %}
+                {{ cat.libelle }}
+                {% else %}
+                {{ cat.libelleEng }}
+                {% endif %}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+    </a>
+    {% endif %}
+{% endmacro %}

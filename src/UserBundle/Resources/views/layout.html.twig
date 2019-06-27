@@ -1,0 +1,73 @@
+{% extends "base.html.twig" %}
+
+{% block titre %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block stylesheets %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link rel="shortcut icon" href="{{asset('admin/img/favicon.png')}}">
+    <link href="{{asset('login/css/bootstrap.min.css')}}" rel="stylesheet">
+        <link href="{{asset('login/css/login.css')}}" rel="stylesheet">
+       <link href="{{asset('admin/css/elegant-icons-style.css')}}" rel="stylesheet" />
+    <link href="{{asset('admin/css/font-awesome.min.css')}}" rel="stylesheet" />
+
+
+    <!-- bootstrap theme -->
+   <!-- <link href="{{asset('login/css/bootstrap-theme.css')}}" rel="stylesheet">-->
+    <!--external css-->
+    <!-- font icon -->
+ <!--   <link href="{{asset('admin/css/elegant-icons-style.css')}}" rel="stylesheet" />
+    <link href="{{asset('admin/css/font-awesome.min.css')}}" rel="stylesheet" />-->
+    <!-- Custom styles -->
+   <!-- <link href="{{asset('admin/css/style.css')}}" rel="stylesheet">
+    <link href="{{asset('admin/css/style-responsive.css')}}" rel="stylesheet" />
+    <link href="{{asset('admin/css/datatables.css')}}" rel="stylesheet" />-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
+    <!--[if lt IE 9]>
+        <script src="{{asset('admin/js/html5shiv.js')}}"></script>
+        <script src="{{asset('admin/js/respond.min.js')}}"></script>
+        <script src="{{asset('admin/js/lte-ie7.js')}}"></script>
+      <![endif]-->
+
+{% endblock %}
+
+{% block body %} 
+ 
+    <div class="container">
+  <div class="row">
+  
+
+    <div class="main" style="margin-top:50px;">
+   
+
+
+        {% if app.request.hasPreviousSession %}
+            {% for type, messages in app.session.flashbag.all() %}
+                {% for message in messages %}
+                    <div class="flash-{{ type }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+
+        
+            {% block fos_user_content %}
+
+            {% endblock fos_user_content %}
+        
+    </div>
+    </div>
+    </div>
+   
+{% endblock %}
+
+{% block javascripts %}
+        <script src="{{asset('login/js/bootstrap.min.js')}}"></script>
+        <script src="{{asset('login/js/jquery-1.11.1.min.js')}}"></script>
+{% endblock %}
